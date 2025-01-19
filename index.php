@@ -36,27 +36,85 @@
 </head>
 
 <body>
-  <div class="header">
-    <img src="https://avatars.githubusercontent.com/u/39408390" alt="Profile Picture">
-    <h1>Isaque Costa</h1>
-    <p>Full Stack Developer | Open Source Enthusiast</p>
-  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4 profile">
+        <img src="https://avatars.githubusercontent.com/u/39408390" alt="Profile Picture">
+        <h1 class="mb-0">Isaque Costa</h1>
+        <p>ioisaque/block - he/him</p>
+        <h4 class="mb-4">Software Engineer</h4>
 
-  <div class="content">
-    <?php foreach (glob("./*", GLOB_ONLYDIR) as $link) : ?>
-      <?php $link = str_replace('./', '', $link); ?>
-
-      <div class="repo">
-        <a href="./<?= $link; ?>">
-          <img src="https://cdn.isaque.it/assets/gifs/load-bars.gif" alt="Repo 1 Image">
-          <div>
-            <h2><?= $link; ?></h2>
-            <p></p>
-          </div>
+        <a class="social" href="https://api.whatsapp.com/send?phone=5531990712203&text=Olá%2C+vim+do+site%21" target="_blank">
+          <img src="https://cdn.isaque.it/assets/socials/icons8-whatsapp.gif" alt="Company">
+          <span>+5531990712203</span>
+        </a>
+        <a class="social" href="mailto:costa@isaque.it" target="_blank">
+          <img src="https://cdn.isaque.it/assets/socials/icons8-email.gif" alt="Email">
+          <span>costa@isaque.it</span>
+        </a>
+        <a class="social" href="https://github.com/ioisaque" target="_blank">
+          <img src="https://cdn.isaque.it/assets/socials/icons8-github.png" alt="GitHub">
+          <span>/ioisaque</span>
+        </a>
+        <a class="social" href="https://instagram.com/ioisaque" target="_blank">
+          <img src="https://cdn.isaque.it/assets/socials/icons8-instagram.gif" alt="Instagram">
+          <span>/ioisaque</span>
+        </a>
+        <a class="social" href="https://linkedin.com/in/ioisaque/" target="_blank">
+          <img src="https://cdn.isaque.it/assets/socials/icons8-linkedin.gif" alt="LinkedIn">
+          <span>/in/ioisaque</span>
         </a>
       </div>
+      <div class="col-md-8 content">
+        <div class="row my-4">
+          <div class="col-6 pl-0">
+            <img src="https://cdn.isaque.it/assets/logos/logo-w.png" alt="Logo" class="logo">
+          </div>
+          <div class="col-6 text-right">
+            <a class="social d-inline-flex" href="_db" target="_blank">
+              <img src="https://cdn.isaque.it/assets/socials/icons8-database.gif" alt="phpMyAdmin" class="social-icon">
+            </a>
+            <a class="social d-inline-flex" href="https://isaque.it/" target="_blank">
+              <img src="https://cdn.isaque.it/assets/socials/icons8-website.gif" alt="Website" class="social-icon">
+            </a>
+            <a class="social d-inline-flex" href="https://isaquecosta.com.br/cpanel/" target="_blank">
+              <img src="https://cdn.isaque.it/assets/socials/icons8-cloud-issues.gif" alt="Server" class="social-icon">
+            </a>
+          </div>
+        </div>
 
-    <?php endforeach; ?>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Hey 👋, I'm Isaque!</h4>
+            <p>I'm a passionate Software Engineer.<br>Explore my projects and get to know more about my work.</p>
+          </div>
+          <div class="col-md-6">
+            <img src="https://camo.githubusercontent.com/f643605d6e8a09145a170fa433acf7d6df7397dce8108d30763c8df51a2abdc1/68747470733a2f2f63646e2e6973617175652e69742f6173736574732f676966732f696465612d63726f77642e676966" alt="Portfolio Image" class="idea-img">
+          </div>
+        </div>
+
+        <div class="row content">
+            <?php foreach (glob("./*", GLOB_ONLYDIR) as $link) : ?>
+            <?php 
+              $link = str_replace('./', '', $link); 
+              if (!file_exists("./$link/manifest.json")) {
+              continue;
+              }
+            ?>
+
+            <div class="repo">
+              <a href="./<?= $link; ?>">
+              <img src="https://cdn.isaque.it/assets/gifs/load-bars.gif" alt="Repo 1 Image">
+              <div>
+                <h2><?= $link; ?></h2>
+                <p></p>
+              </div>
+              </a>
+            </div>
+            <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- JS -->
@@ -69,12 +127,16 @@
         const manifestUrl = repo.querySelector('a').getAttribute('href') + '/manifest.json';
         fetch(manifestUrl)
           .then(response => response.json())
-          .then(data => {
+            .then(data => {
             repo.className = repo.className.replace(/\bbg-\S+/g, '');
             repo.style.backgroundColor = data.theme_color;
             repo.querySelector('h2').textContent = data.name;
             repo.querySelector('p').textContent = data.description;
-            repo.querySelector('img').src = data.icons[0].src;
+            let iconSrc = data.icons[0].src;
+            if (!iconSrc.startsWith('http') && !iconSrc.startsWith('https')) {
+              iconSrc = repo.querySelector('a').getAttribute('href') + '/' + iconSrc;
+            }
+            repo.querySelector('img').src = iconSrc;
           })
           .catch(error => console.error('Error fetching manifest:', error));
       });
