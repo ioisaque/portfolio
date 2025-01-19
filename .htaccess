@@ -1,0 +1,7 @@
+ErrorDocument 400 /cdn/error/400.html
+ErrorDocument 401 /cdn/error/401.html
+ErrorDocument 402 /cdn/error/402.html
+ErrorDocument 403 /cdn/error/403.html
+ErrorDocument 404 /cdn/error/404.html
+ErrorDocument 500 /cdn/error/500.html
+ErrorDocument 503 /cdn/error/503.html
