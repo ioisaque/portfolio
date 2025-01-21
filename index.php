@@ -68,7 +68,8 @@
       <div class="col-md-8 content">
         <div class="row my-4">
           <div class="col-6 pl-0">
-            <img src="https://cdn.isaque.it/assets/logos/logo-w.png" alt="Logo" class="logo">
+            <img src="https://cdn.isaque.it/assets/logos/logo-b.png" class="logo-b" alt="Logo">
+            <img src="https://cdn.isaque.it/assets/logos/logo-w.png" class="logo-w" alt="Logo">
           </div>
           <div class="col-6 text-right">
             <a class="social d-inline-flex" href="_db" target="_blank">
@@ -86,7 +87,9 @@
         <div class="row">
           <div class="col-md-6">
             <h4>Hey 👋, I'm Isaque!</h4>
-            <p>I'm a passionate Software Engineer.<br>Explore my projects and get to know more about my work.</p>
+            <pre class="bio">
+            With more than five years of dedication to IdeYou, I specialized in transforming complex challenges into innovative web solutions that streamline processes and empower business. At IdeYou, my mission goes beyond coding: it is to create tools that drive the success of our customers and our team.
+            The passion for education and technology led me to the role of teacher, where I was able to inspire students in the area of computer science, in addition to refining my communication and leadership skills.</pre>
           </div>
           <div class="col-md-6">
             <img src="https://camo.githubusercontent.com/f643605d6e8a09145a170fa433acf7d6df7397dce8108d30763c8df51a2abdc1/68747470733a2f2f63646e2e6973617175652e69742f6173736574732f676966732f696465612d63726f77642e676966" alt="Portfolio Image" class="idea-img">
@@ -105,9 +108,9 @@
             <div class="repo">
               <a href="./<?= $link; ?>">
               <img src="https://cdn.isaque.it/assets/gifs/load-bars.gif" alt="Repo 1 Image">
-              <div>
+              <div class="repo-id">
                 <h2><?= $link; ?></h2>
-                <p></p>
+                <pre></pre>
               </div>
               </a>
             </div>
@@ -129,10 +132,11 @@
           .then(response => response.json())
             .then(data => {
             repo.className = repo.className.replace(/\bbg-\S+/g, '');
-            repo.style.backgroundColor = data.theme_color;
+            repo.style.color = data.theme_color;
+            repo.style.backgroundColor = data.background_color;
             repo.querySelector('h2').textContent = data.name;
-            repo.querySelector('p').textContent = data.description;
-            let iconSrc = data.icons[0].src;
+            repo.querySelector('pre').textContent = data.description;
+            let iconSrc = (data.icons && data.icons[0] && data.icons[0].src) ? data.icons[0].src : "https://cdn.isaque.it/assets/gifs/load-bars.gif";
             if (!iconSrc.startsWith('http') && !iconSrc.startsWith('https')) {
               iconSrc = repo.querySelector('a').getAttribute('href') + '/' + iconSrc;
             }
